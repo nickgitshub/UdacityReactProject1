@@ -1,9 +1,6 @@
 # MyReads Project
-```
 
 Project for creating reading lists. Users can organize books on three shelves: Currently Reading, Want to Read, and Read. Books can be queried and added from a Udacity database.
-
-```
 
 ## Getting Started
 
