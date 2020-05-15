@@ -27,7 +27,8 @@ const Search = (props) => {
         <div className="search-books-results">
           <ol className="books-grid">
 
-            {props.searchResults.error === undefined && props.searchResults
+            {//maps searches using mappingSearches from App.js
+              props.searchResults.error === undefined && props.searchResults
               ? (props.mappingSearches(props.searchResults))
               : (<div></div>)
             }   
