@@ -66,6 +66,13 @@ class BooksApp extends React.Component {
 
   //called when a new shelf is selected for a book
   updateBookshelf = async(bookID, shelf) => {
+
+    //if the book is currently in search results, update the shelf in the searchResults array
+    const searchIDs=this.state.searchResults.map(book => book.id)
+    if(searchIDs.indexOf(bookID)>-1){
+      this.state.searchResults[searchIDs.indexOf(bookID)].shelf = shelf
+    }
+
     let modifiedBook = await BooksAPI.get(bookID)
     let updatedIDs = await BooksAPI.update(modifiedBook, shelf)
 
@@ -107,6 +114,18 @@ class BooksApp extends React.Component {
       if(searchedBooks !== undefined && searchedBooks.error === undefined){
         //filtering out books where there isn't a title, thumbnail image, or author
         let filteredBooks = searchedBooks.filter(book => book.title !== undefined && book.authors !== undefined && book.imageLinks.thumbnail !== undefined)
+
+        //iterates through the filtered books and determines what shelf they're currently on
+        //creates a new shelf key for storing the shelf
+        for(let b=0; b<filteredBooks.length; b++){
+          if(this.state.bookshelf[filteredBooks[b].id] !== undefined){
+            filteredBooks[b].shelf = this.state.bookshelf[filteredBooks[b].id].shelf
+          }else{
+            filteredBooks[b].shelf = "none"
+          }
+        }
+
+
         this.setState({
           searchResults: filteredBooks
         })
